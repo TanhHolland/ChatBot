@@ -44,6 +44,7 @@ body{
 
 section{
     padding:2rem 7%;
+    background: var(--bg);
 }
 
 .heading{
