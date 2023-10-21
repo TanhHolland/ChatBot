@@ -122,12 +122,13 @@ body {
 }
 
 .chatbox__heading--header {
-    font-size: 1.2rem;
+    font-size: 2.0rem;
     color: white;
 }
 
 .chatbox__description--header {
-    font-size: .9rem;
+    font-size: 1.2rem;
+    padding-top: 1px;
     color: white;
 }
 
