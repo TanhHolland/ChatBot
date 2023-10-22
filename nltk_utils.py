@@ -48,8 +48,10 @@ def bag_of_words(tokenized_sentence, words):
     # words : mảng list chứa danh sách các từ khóa để kiểm tra xem từ đó có xuất hiện trong câu chat hay không
     # sentence : mảng list chứa các từ đã được tách ra từ câu chat
 
-    B1 : stem các từ trong sentences về dạng nguyên gốc của nó
-    B2:
+    # B1 : stem các từ trong sentences về dạng nguyên gốc của nó (đã được tokenize)
+    # B2 : Khởi tạo mảng bag với toàn bộ giá trị bằng 0 chiều dài bằng words
+    # B3 : Duyệt các từ trong words xem nếu có từ nào trong sentences ko thì tại vị trí đó bằng 1
+    # B4 : trả lại mảng trùng vị trí
 
     # stem each word
     sentence_words = [stem(word) for word in tokenized_sentence]
