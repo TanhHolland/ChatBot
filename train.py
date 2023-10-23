@@ -13,7 +13,7 @@ with open('intents.json', 'r') as f:
     intents = json.load(f)
 
 all_words = []
-tags = []
+tags = [] # danh sách các chủ tiêu đề ( loại câu hỏi)
 xy = []
 # loop through each sentence in our intents patterns
 for intent in intents['intents']:
@@ -23,13 +23,16 @@ for intent in intents['intents']:
     for pattern in intent['patterns']:
         # tokenize each word in the sentence
         w = tokenize(pattern)
+        # duyệt từng câu trong danh sách câu hỏi của khách hàng rồi tách từng từ ra
         # add to our words list
         all_words.extend(w)
+        # cho vào danh sách tổng các từ của khách
         # add to xy pair
         xy.append((w, tag))
-
+        # cặp (x,y)
 # stem and lower each word
 ignore_words = ['?', '.', '!']
+# các dấu sẽ không stem trong danh sách
 all_words = [stem(w) for w in all_words if w not in ignore_words]
 # remove duplicates and sort
 all_words = sorted(set(all_words))
@@ -40,21 +43,24 @@ print(len(tags), "tags:", tags)
 print(len(all_words), "unique stemmed words:", all_words)
 
 # create training data
+# lưu trữ dữ liệu huấn luyện
 X_train = []
 y_train = []
 for (pattern_sentence, tag) in xy:
     # X: bag of words for each pattern_sentence
     bag = bag_of_words(pattern_sentence, all_words)
+    # trả lại mảng vd [0,1,1,0,0] các từ trong pattern_sentence xuất hiện trong all_words
     X_train.append(bag)
     # y: PyTorch CrossEntropyLoss needs only class labels, not one-hot
     label = tags.index(tag)
+    # label là vị trí của các tag trong tags
     y_train.append(label)
 
-X_train = np.array(X_train)
-y_train = np.array(y_train)
+X_train = np.array(X_train) # chuyển thành mảng numpy
+y_train = np.array(y_train) # chuyển thành mảng numpy
 
 # Hyper-parameters 
-num_epochs = 1000
+num_epochs = 1000 # số lần lặp
 batch_size = 8
 learning_rate = 0.001
 input_size = len(X_train[0])
@@ -63,7 +69,6 @@ output_size = len(tags)
 print(input_size, output_size)
 
 class ChatDataset(Dataset):
-
     def __init__(self):
         self.n_samples = len(X_train)
         self.x_data = X_train
